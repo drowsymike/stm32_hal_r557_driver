@@ -107,7 +107,7 @@ __weak void debug_callback(const uint8_t* msg);
  * @param cmd 
  * @param args
  */
-static void r557_init_data_package(uint8_t* transmit_data, uint8_t cmd, uint8_t* args, uint16_t args_len);
+void r557_init_data_package(uint8_t* transmit_data, uint8_t cmd, uint8_t* args, uint16_t args_len);
 
 /**
  * @brief Function for transmitting the command
@@ -115,4 +115,4 @@ static void r557_init_data_package(uint8_t* transmit_data, uint8_t cmd, uint8_t*
  * @param cmd 
  * @param args 
  */
-void r557_transmit_command(uint8_t cmd, uint8_t* args, uint16_t args_len);
+int r557_transmit_command(uint8_t cmd, uint8_t* args, uint16_t args_len);

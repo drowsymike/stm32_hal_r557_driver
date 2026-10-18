@@ -18,7 +18,7 @@ __weak void debug_callback(const uint8_t* msg) {
 
 /*--Function bodies----------------------------------------------------------*/
 
-static void r557_init_data_package(uint8_t* transmit_data, uint8_t cmd, uint8_t* args, uint16_t args_len) {
+void r557_init_data_package(uint8_t* transmit_data, uint8_t cmd, uint8_t* args, uint16_t args_len) {
 	uint16_t checksum = 0;
 	transmit_data[0] = r557_header_1st_byte;
 	transmit_data[1] = r557_header_2d_byte;
@@ -40,15 +40,16 @@ static void r557_init_data_package(uint8_t* transmit_data, uint8_t cmd, uint8_t*
 	transmit_data[11 + args_len] = checksum & 0x00FF;
 }
 
-void r557_transmit_command(uint8_t cmd, uint8_t* args, uint16_t args_len) {
+int r557_transmit_command(uint8_t cmd, uint8_t* args, uint16_t args_len) {
 	if (args_len > 33) return E2BIG;
 	uint8_t transmit_data[10 + args_len + 2];
 	uint8_t receive_data[receiving_package_size] = {0};
 	r557_init_data_package(transmit_data, cmd, args, args_len);
-	HAL_UART_Transmit(&uart_port, transmit_data, sizeof(transmit_data), uart_timeout);
+	HAL_StatusTypeDef result = HAL_UART_Transmit(&uart_port, transmit_data, sizeof(transmit_data), uart_timeout);
 	#if __debug == 1
 		if (HAL_UART_Receive(&uart_port, receive_data, sizeof(receive_data), uart_timeout) == HAL_OK) {
-			debug_callback("Package received succesfully\n");
+			//debug_callback("Package received succesfully\n");
 		}
 	#endif
+	return result;
 }
