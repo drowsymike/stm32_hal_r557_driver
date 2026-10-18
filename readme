@@ -1,0 +1,13 @@
+This is a small software driver for the R557 capacitive fingerprint 
+scanner/sensor, manufactured by GROW (China).
+
+The repository contains the following files:
+`r557_driver.c` — the file containing the main source code.
+`r557_driver.h` — the primary header file, which should be included 
+in your project's `main.h`.
+`r557_driver_conf.h` — a configuration file where you can specify the 
+UART port (by selecting the name of your `UART_HandleTypeDef` structure 
+object), define parameters such as transmission timeouts (for 
+`HAL_UART_Transmit`) and packet lengths, and enable debug mode. 
+(Note: When debug mode is set to 1, packets are received via 
+`HAL_UART_Receive`. This part may need to be rewritten in the future...)
